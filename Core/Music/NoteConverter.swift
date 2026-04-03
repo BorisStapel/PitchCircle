@@ -1,0 +1,14 @@
+import Foundation
+
+struct NoteConverter {
+    static let noteNames = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+    
+    static func convert(frequency: Float, referenceA4: Float = 440.0) -> PitchResult? {
+        guard frequency > 0 else { return nil }
+        let midi = 12 * log2(frequency / referenceA4) + 69
+        let roundedMidi = Int(round(midi))
+        let octave = (roundedMidi / 12) - 1
+        let noteIndex = roundedMidi % 12
+        return PitchResult(frequency: Double(frequency), midiNote: roundedMidi, noteName: noteNames[noteIndex], octave: octave, confidence: 0.0)
+    }
+}

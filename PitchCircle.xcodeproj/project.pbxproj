@@ -6,13 +6,43 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A1D661CD2F7F136D00DF4EED /* PitchDetectorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661BF2F7F136D00DF4EED /* PitchDetectorService.swift */; };
+		A1D661CE2F7F136D00DF4EED /* AudioEngineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661BE2F7F136D00DF4EED /* AudioEngineService.swift */; };
+		A1D661CF2F7F136D00DF4EED /* PitchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661BC2F7F136D00DF4EED /* PitchResult.swift */; };
+		A1D661D02F7F136D00DF4EED /* PitchCircleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661B42F7F136D00DF4EED /* PitchCircleApp.swift */; };
+		A1D661D12F7F136D00DF4EED /* PYINProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661B62F7F136D00DF4EED /* PYINProcessor.swift */; };
+		A1D661D22F7F136D00DF4EED /* NoteConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661B92F7F136D00DF4EED /* NoteConverter.swift */; };
+		A1D661D32F7F136D00DF4EED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661B32F7F136D00DF4EED /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A1D661A52F7F12E400DF4EED /* PitchCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1D661B32F7F136D00DF4EED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A1D661B42F7F136D00DF4EED /* PitchCircleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchCircleApp.swift; sourceTree = "<group>"; };
+		A1D661B62F7F136D00DF4EED /* PYINProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PYINProcessor.swift; sourceTree = "<group>"; };
+		A1D661B92F7F136D00DF4EED /* NoteConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteConverter.swift; sourceTree = "<group>"; };
+		A1D661BC2F7F136D00DF4EED /* PitchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchResult.swift; sourceTree = "<group>"; };
+		A1D661BE2F7F136D00DF4EED /* AudioEngineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineService.swift; sourceTree = "<group>"; };
+		A1D661BF2F7F136D00DF4EED /* PitchDetectorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchDetectorService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A1D661D62F803D6400DF4EED /* Exceptions for "PitchCircle" folder in "PitchCircle" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A1D661A42F7F12E400DF4EED /* PitchCircle */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A1D661A72F7F12E400DF4EED /* PitchCircle */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A1D661D62F803D6400DF4EED /* Exceptions for "PitchCircle" folder in "PitchCircle" target */,
+			);
 			path = PitchCircle;
 			sourceTree = "<group>";
 		};
@@ -32,6 +62,10 @@
 		A1D6619C2F7F12E400DF4EED = {
 			isa = PBXGroup;
 			children = (
+				A1D661B52F7F136D00DF4EED /* App */,
+				A1D661BB2F7F136D00DF4EED /* Core */,
+				A1D661CB2F7F136D00DF4EED /* Features */,
+				A1D661CC2F7F136D00DF4EED /* Resources */,
 				A1D661A72F7F12E400DF4EED /* PitchCircle */,
 				A1D661A62F7F12E400DF4EED /* Products */,
 			);
@@ -43,6 +77,161 @@
 				A1D661A52F7F12E400DF4EED /* PitchCircle.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A1D661B52F7F136D00DF4EED /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661B32F7F136D00DF4EED /* ContentView.swift */,
+				A1D661B42F7F136D00DF4EED /* PitchCircleApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A1D661B72F7F136D00DF4EED /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661B62F7F136D00DF4EED /* PYINProcessor.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		A1D661B82F7F136D00DF4EED /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A1D661BA2F7F136D00DF4EED /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661B92F7F136D00DF4EED /* NoteConverter.swift */,
+			);
+			path = Music;
+			sourceTree = "<group>";
+		};
+		A1D661BB2F7F136D00DF4EED /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661B72F7F136D00DF4EED /* Audio */,
+				A1D661B82F7F136D00DF4EED /* Extensions */,
+				A1D661BA2F7F136D00DF4EED /* Music */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		A1D661BD2F7F136D00DF4EED /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661BC2F7F136D00DF4EED /* PitchResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1D661C02F7F136D00DF4EED /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661BE2F7F136D00DF4EED /* AudioEngineService.swift */,
+				A1D661BF2F7F136D00DF4EED /* PitchDetectorService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A1D661C12F7F136D00DF4EED /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1D661C22F7F136D00DF4EED /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661BD2F7F136D00DF4EED /* Models */,
+				A1D661C02F7F136D00DF4EED /* Services */,
+				A1D661C12F7F136D00DF4EED /* ViewModels */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		A1D661C32F7F136D00DF4EED /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1D661C42F7F136D00DF4EED /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1D661C52F7F136D00DF4EED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A1D661C62F7F136D00DF4EED /* CircleOfFifths */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661C32F7F136D00DF4EED /* Models */,
+				A1D661C42F7F136D00DF4EED /* ViewModels */,
+				A1D661C52F7F136D00DF4EED /* Views */,
+			);
+			path = CircleOfFifths;
+			sourceTree = "<group>";
+		};
+		A1D661C72F7F136D00DF4EED /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1D661C82F7F136D00DF4EED /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A1D661C92F7F136D00DF4EED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A1D661CA2F7F136D00DF4EED /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661C72F7F136D00DF4EED /* Models */,
+				A1D661C82F7F136D00DF4EED /* Services */,
+				A1D661C92F7F136D00DF4EED /* Views */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A1D661CB2F7F136D00DF4EED /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A1D661C22F7F136D00DF4EED /* Audio */,
+				A1D661C62F7F136D00DF4EED /* CircleOfFifths */,
+				A1D661CA2F7F136D00DF4EED /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A1D661CC2F7F136D00DF4EED /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +308,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1D661CD2F7F136D00DF4EED /* PitchDetectorService.swift in Sources */,
+				A1D661CE2F7F136D00DF4EED /* AudioEngineService.swift in Sources */,
+				A1D661CF2F7F136D00DF4EED /* PitchResult.swift in Sources */,
+				A1D661D02F7F136D00DF4EED /* PitchCircleApp.swift in Sources */,
+				A1D661D12F7F136D00DF4EED /* PYINProcessor.swift in Sources */,
+				A1D661D22F7F136D00DF4EED /* NoteConverter.swift in Sources */,
+				A1D661D32F7F136D00DF4EED /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,13 +447,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4N45QAQ5U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitchCircle/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -282,13 +481,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4N45QAQ5U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitchCircle/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
