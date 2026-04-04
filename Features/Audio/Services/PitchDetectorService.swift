@@ -84,7 +84,7 @@ final class PitchDetectorService: ObservableObject {
 
         let candidates = processor.getPitchCandidates(samples: samples, sampleRate: Float(buffer.format.sampleRate))
 
-        if let top = candidates.first, top.probability > 0.7 {
+        if let top = candidates.first, top.probability > 0.9 {
             let referencePitch = Float(settingsService.settings.referencePitch.rawValue)
 
             if let result = NoteConverter.convert(
