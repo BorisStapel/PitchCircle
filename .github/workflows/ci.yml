@@ -20,7 +20,7 @@ jobs:
           xcode-version: latest-stable
 
       - name: Build
-        run: xcodebuild build -project PitchCircle.xcodeproj -scheme PitchCircle -destination 'platform=iOS Simulator,name=iPhone 16'
+        run: xcodebuild build -project PitchCircle.xcodeproj -scheme PitchCircle -destination 'platform=iOS Simulator,name=iPhone 17'
 
       - name: Test
-        run: xcodebuild test -project PitchCircle.xcodeproj -scheme PitchCircle -destination 'platform=iOS Simulator,name=iPhone 16'
+        run: xcodebuild test -project PitchCircle.xcodeproj -scheme PitchCircle -destination 'platform=iOS Simulator,name=iPhone 17'
