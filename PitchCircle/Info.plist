@@ -21,7 +21,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>PitchCircle needs microphone access to detect musical pitch in real-time.</string>
+	<string>PitchCircle listens to your microphone to detect musical pitch. Audio is processed entirely on-device and never stored or transmitted.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
