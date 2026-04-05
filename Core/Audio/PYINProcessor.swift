@@ -39,14 +39,17 @@ struct PYINProcessor: Sendable {
                     let denominator = alpha - 2 * beta + gamma
                     let refinedTau: Float
                     if abs(denominator) > 1e-12 {
-                        refinedTau = Float(tau) + 0.5 * (alpha - gamma) / denominator
+                        let offset = 0.5 * (alpha - gamma) / denominator
+                        let clampedOffset = min(max(offset, -0.5), 0.5)
+                        refinedTau = Float(tau) + clampedOffset
                     } else {
                         refinedTau = Float(tau)
                     }
                     candidates.append((hz: sampleRate / refinedTau, probability: 1.0 - beta))
+                    break
                 }
             }
         }
-        return candidates.sorted { $0.probability > $1.probability }
+        return candidates
     }
 }
