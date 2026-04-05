@@ -20,7 +20,7 @@ struct SettingsView: View {
 
                 Section {
                     Text("Changes apply immediately and are stored for the next launch.")
-                        .font(.system(size: 13, weight: .regular))
+                        .font(.system(size: 15, weight: .regular))
                         .foregroundStyle(Color.inactiveText)
                         .listRowBackground(Color.bgApp)
                 }
@@ -41,7 +41,7 @@ struct SettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("PitchCircle")
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.system(size: 18, weight: .medium))
                         .foregroundStyle(Color.notePrimary)
                 }
 

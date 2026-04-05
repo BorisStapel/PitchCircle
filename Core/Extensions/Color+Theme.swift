@@ -1,18 +1,18 @@
 import SwiftUI
 
 extension Color {
-    static let bgApp = Color(hex: "#0e0e12")
-    static let bgSegment = Color(hex: "#1b1d26")
-    static let bgCore = Color(hex: "#11131a")
-    static let activeMajorFill = Color(hex: "#3a2b66")
-    static let activeMajorStroke = Color(hex: "#a89cff")
-    static let activeMajorText = Color(hex: "#e1dcff")
-    static let activeMinorFill = Color(hex: "#12362d")
-    static let activeMinorStroke = Color(hex: "#58d9ad")
-    static let activeMinorText = Color(hex: "#d5fff0")
-    static let inactiveText = Color(hex: "#8d93ab")
-    static let inactiveStroke = Color(hex: "#383b4d")
-    static let notePrimary = Color(hex: "#f3f5fb")
+    static let bgApp = Color(hex: "#F5F2EA")
+    static let bgSegment = Color(hex: "#E6E0D4")
+    static let bgCore = Color(hex: "#D8D1C3")
+    static let activeMajorFill = Color(hex: "#D9CCFF")
+    static let activeMajorStroke = Color(hex: "#6E59D9")
+    static let activeMajorText = Color(hex: "#43308F")
+    static let activeMinorFill = Color(hex: "#CDEEE2")
+    static let activeMinorStroke = Color(hex: "#177A5B")
+    static let activeMinorText = Color(hex: "#0F5A43")
+    static let inactiveText = Color(hex: "#5F645F")
+    static let inactiveStroke = Color(hex: "#B4ADA0")
+    static let notePrimary = Color(hex: "#1F2328")
     static let micActive = Color(hex: "#39E6A6")
 
     init(hex: String) {

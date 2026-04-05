@@ -11,7 +11,7 @@ enum MicrophonePermissionState {
 
 @MainActor
 final class PitchDetectorService: ObservableObject {
-    private let confidenceThreshold: Float = 0.7
+    private let confidenceThreshold: Float = 0.95
     private let levelSmoothingFactor: Float = 0.2
 
     @Published private(set) var currentPitch: PitchResult?

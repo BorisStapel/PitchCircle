@@ -53,7 +53,7 @@ struct ContentView: View {
     private var header: some View {
         HStack {
             Text("PitchCircle")
-                .font(.system(size: 20, weight: .medium))
+                .font(.system(size: 22, weight: .medium))
                 .foregroundStyle(Color.notePrimary)
 
             Spacer()
@@ -78,7 +78,7 @@ struct ContentView: View {
             openURL(url)
         } label: {
             Text("Microphone access is required. Tap to open Settings.")
-                .font(.system(size: 16, weight: .regular))
+                .font(.system(size: 18, weight: .regular))
                 .foregroundStyle(Color.notePrimary)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, minHeight: 264)
@@ -99,7 +99,7 @@ struct ContentView: View {
     private var permissionPrompt: some View {
         VStack(spacing: 16) {
             Text("PitchCircle listens to your microphone to detect musical pitch. Audio is processed entirely on-device.")
-                .font(.system(size: 16, weight: .regular))
+                .font(.system(size: 18, weight: .regular))
                 .foregroundStyle(Color.notePrimary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 12)
@@ -107,7 +107,7 @@ struct ContentView: View {
             Button("Continue") {
                 detector.requestPermissionAndStart()
             }
-            .font(.system(size: 16, weight: .medium))
+            .font(.system(size: 18, weight: .medium))
             .foregroundStyle(Color.notePrimary)
             .padding(.horizontal, 18)
             .padding(.vertical, 10)
@@ -132,7 +132,7 @@ struct ContentView: View {
     private var noteDisplay: some View {
         VStack(spacing: 14) {
             Text(detector.currentPitch?.noteWithOctave ?? "—")
-                .font(.system(size: 44, weight: .medium))
+                .font(.system(size: 52, weight: .medium))
                 .foregroundStyle(Color.notePrimary)
                 .shadow(color: Color.notePrimary.opacity(0.08), radius: 2)
 
@@ -153,7 +153,7 @@ struct ContentView: View {
             }
 
             Text(frequencyText)
-                .font(.system(size: 13, weight: .regular))
+                .font(.system(size: 15, weight: .regular))
                 .foregroundStyle(Color.inactiveText)
         }
         .frame(maxWidth: .infinity)
@@ -174,13 +174,13 @@ struct ContentView: View {
                 )
 
             Text("live · \(settingsService.settings.referencePitch.statusLabel)")
-                .font(.system(size: 13, weight: .regular))
+                .font(.system(size: 15, weight: .regular))
                 .foregroundStyle(Color.notePrimary)
 
             Spacer()
 
             Text(detector.statusMessage.lowercased())
-                .font(.system(size: 13, weight: .regular))
+                .font(.system(size: 15, weight: .regular))
                 .foregroundStyle(Color.inactiveText)
         }
         .padding(.horizontal, 20)
@@ -215,10 +215,10 @@ struct ContentView: View {
         textColor: Color
     ) -> some View {
         Text(title)
-            .font(.system(size: 14, weight: .medium))
+            .font(.system(size: 16, weight: .medium))
             .foregroundStyle(textColor)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
             .background(
                 Capsule(style: .continuous)
                     .fill(fillColor)

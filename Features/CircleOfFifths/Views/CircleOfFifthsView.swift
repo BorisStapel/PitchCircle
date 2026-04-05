@@ -43,28 +43,28 @@ struct CircleOfFifthsView: View {
 
             ForEach(Array(CircleOfFifthsLayout.majorNames.enumerated()), id: \.offset) { index, majorName in
                 Text(majorName)
-                    .font(.system(size: detector.currentPitch?.coFIndex == index ? 12 : 11, weight: detector.currentPitch?.coFIndex == index ? .medium : .regular))
+                    .font(.system(size: detector.currentPitch?.coFIndex == index ? 14 : 13, weight: detector.currentPitch?.coFIndex == index ? .medium : .regular))
                     .foregroundStyle(detector.currentPitch?.coFIndex == index ? Color.activeMajorText : Color.inactiveText)
                     .shadow(color: detector.currentPitch?.coFIndex == index ? Color.activeMajorStroke.opacity(0.25) : .clear, radius: 3)
-                    .position(labelPosition(for: index, radius: 110))
+                    .position(labelPosition(for: index, radius: 112))
             }
 
             ForEach(Array(CircleOfFifthsLayout.minorNames.enumerated()), id: \.offset) { index, minorName in
                 Text(minorName)
-                    .font(.system(size: detector.currentPitch?.coFIndex == index ? 11 : 10, weight: detector.currentPitch?.coFIndex == index ? .medium : .regular))
+                    .font(.system(size: detector.currentPitch?.coFIndex == index ? 12 : 11, weight: detector.currentPitch?.coFIndex == index ? .medium : .regular))
                     .foregroundStyle(detector.currentPitch?.coFIndex == index ? Color.activeMinorText : Color.inactiveText)
                     .shadow(color: detector.currentPitch?.coFIndex == index ? Color.activeMinorStroke.opacity(0.22) : .clear, radius: 3)
-                    .position(labelPosition(for: index, radius: 72))
+                    .position(labelPosition(for: index, radius: 71))
             }
 
             if let pitch = detector.currentPitch, let index = pitch.coFIndex {
                 VStack(spacing: 4) {
                     Text(CircleOfFifthsLayout.majorName(for: index))
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(Color.activeMajorText)
 
                     Text(CircleOfFifthsLayout.minorName(for: index))
-                        .font(.system(size: 11, weight: .regular))
+                        .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(Color.activeMinorText)
                 }
                 .padding(.horizontal, 8)
