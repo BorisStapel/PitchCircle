@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A17B0EF12F82D8BB00E5C66D /* CentsArcGauge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17B0EF02F82D8BB00E5C66D /* CentsArcGauge.swift */; };
 		A1D661CD2F7F136D00DF4EED /* PitchDetectorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661BF2F7F136D00DF4EED /* PitchDetectorService.swift */; };
 		A1D661CE2F7F136D00DF4EED /* AudioEngineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661BE2F7F136D00DF4EED /* AudioEngineService.swift */; };
 		A1D661CF2F7F136D00DF4EED /* PitchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661BC2F7F136D00DF4EED /* PitchResult.swift */; };
@@ -17,7 +18,6 @@
 		A1D661E42F8073D900DF4EED /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661E32F8073D900DF4EED /* Color+Theme.swift */; };
 		A1D661E62F80743B00DF4EED /* CircleOfFifthsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661E52F80743B00DF4EED /* CircleOfFifthsLayout.swift */; };
 		A1D661E82F8074A800DF4EED /* CircleOfFifthsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661E72F8074A800DF4EED /* CircleOfFifthsView.swift */; };
-		A1D661EA2F8147AE00DF4EED /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661E92F8147AE00DF4EED /* AppState.swift */; };
 		A1D661EC2F8147AF00DF4EED /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661EB2F8147AF00DF4EED /* AppSettings.swift */; };
 		A1D661EE2F8147B000DF4EED /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661ED2F8147B000DF4EED /* SettingsService.swift */; };
 		A1D661F02F8147B000DF4EED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D661EF2F8147B000DF4EED /* SettingsView.swift */; };
@@ -35,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		A14A7F802F8163C500F06411 /* PitchCircleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PitchCircleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A17B0EF02F82D8BB00E5C66D /* CentsArcGauge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentsArcGauge.swift; sourceTree = "<group>"; };
 		A1D661A52F7F12E400DF4EED /* PitchCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1D661B32F7F136D00DF4EED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1D661B42F7F136D00DF4EED /* PitchCircleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchCircleApp.swift; sourceTree = "<group>"; };
@@ -46,7 +47,6 @@
 		A1D661E32F8073D900DF4EED /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
 		A1D661E52F80743B00DF4EED /* CircleOfFifthsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleOfFifthsLayout.swift; sourceTree = "<group>"; };
 		A1D661E72F8074A800DF4EED /* CircleOfFifthsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleOfFifthsView.swift; sourceTree = "<group>"; };
-		A1D661E92F8147AE00DF4EED /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A1D661EB2F8147AF00DF4EED /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		A1D661ED2F8147B000DF4EED /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		A1D661EF2F8147B000DF4EED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -123,7 +123,6 @@
 			children = (
 				A1D661B32F7F136D00DF4EED /* ContentView.swift */,
 				A1D661B42F7F136D00DF4EED /* PitchCircleApp.swift */,
-				A1D661E92F8147AE00DF4EED /* AppState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -215,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				A1D661E72F8074A800DF4EED /* CircleOfFifthsView.swift */,
+				A17B0EF02F82D8BB00E5C66D /* CentsArcGauge.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -397,8 +397,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1D661CD2F7F136D00DF4EED /* PitchDetectorService.swift in Sources */,
-				A1D661EA2F8147AE00DF4EED /* AppState.swift in Sources */,
 				A1D661CE2F7F136D00DF4EED /* AudioEngineService.swift in Sources */,
+				A17B0EF12F82D8BB00E5C66D /* CentsArcGauge.swift in Sources */,
 				A1D661CF2F7F136D00DF4EED /* PitchResult.swift in Sources */,
 				A1D661D02F7F136D00DF4EED /* PitchCircleApp.swift in Sources */,
 				A1D661D12F7F136D00DF4EED /* PYINProcessor.swift in Sources */,

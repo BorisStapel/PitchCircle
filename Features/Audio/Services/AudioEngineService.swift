@@ -4,7 +4,7 @@ final class AudioEngineService {
     private let engine = AVAudioEngine()
     private let inputBus: AVAudioNodeBus = 0
 
-    func start(onBuffer: @escaping (AVAudioPCMBuffer) -> Void) throws {
+    func start(onBuffer: @escaping @Sendable (AVAudioPCMBuffer) -> Void) throws {
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.record, mode: .measurement, options: [.mixWithOthers])
         try session.setActive(true)

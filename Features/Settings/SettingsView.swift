@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject private var appState: AppState
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settingsService: SettingsService
 
     var body: some View {
@@ -47,7 +47,7 @@ struct SettingsView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Close") {
-                        appState.isSettingsPresented = false
+                        dismiss()
                     }
                 }
             }

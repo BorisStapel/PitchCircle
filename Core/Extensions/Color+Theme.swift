@@ -14,6 +14,8 @@ extension Color {
     static let inactiveStroke = Color(hex: "#B4ADA0")
     static let notePrimary = Color(hex: "#1F2328")
     static let micActive = Color(hex: "#39E6A6")
+    static let centsWarning = Color(hex: "#F5C842")
+    static let centsDanger = Color(hex: "#E85D4A")
 
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

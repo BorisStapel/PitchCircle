@@ -1,12 +1,12 @@
 import Foundation
 import Accelerate
 
-class PYINProcessor {
+struct PYINProcessor: Sendable {
     private let minHz: Float = 30.0
     private let maxHz: Float = 2000.0
     private let threshold: Float = 0.10
     
-    func getPitchCandidates(samples: [Float], sampleRate: Float) -> [(hz: Float, probability: Float)] {
+    nonisolated func getPitchCandidates(samples: [Float], sampleRate: Float) -> [(hz: Float, probability: Float)] {
         let n = samples.count
         let maxTau = Int(sampleRate / minHz)
         let minTau = Int(sampleRate / maxHz)
@@ -33,7 +33,17 @@ class PYINProcessor {
         for tau in minTau..<maxTau - 1 {
             if cmnd[tau] < threshold {
                 if cmnd[tau] < cmnd[tau - 1] && cmnd[tau] < cmnd[tau + 1] {
-                    candidates.append((hz: sampleRate / Float(tau), probability: 1.0 - cmnd[tau]))
+                    let alpha = cmnd[tau - 1]
+                    let beta = cmnd[tau]
+                    let gamma = cmnd[tau + 1]
+                    let denominator = alpha - 2 * beta + gamma
+                    let refinedTau: Float
+                    if abs(denominator) > 1e-12 {
+                        refinedTau = Float(tau) + 0.5 * (alpha - gamma) / denominator
+                    } else {
+                        refinedTau = Float(tau)
+                    }
+                    candidates.append((hz: sampleRate / refinedTau, probability: 1.0 - beta))
                 }
             }
         }

@@ -13,8 +13,13 @@ enum MicrophonePermissionState {
 final class PitchDetectorService: ObservableObject {
     private let confidenceThreshold: Float = 0.95
     private let levelSmoothingFactor: Float = 0.2
+    private let centsSmoothingFactor: Double = 0.08
+    private let centsDeadband: Double = 5.0
+    private let maxDisplayCentsStep: Double = 2.5
+    private let centsSampleWindowSize: Int = 5
 
     @Published private(set) var currentPitch: PitchResult?
+    @Published private(set) var displayCents: Double?
     @Published private(set) var statusMessage: String = "Ready"
     @Published private(set) var permissionState: MicrophonePermissionState = .undetermined
     @Published private(set) var isListening = false
@@ -24,11 +29,15 @@ final class PitchDetectorService: ObservableObject {
     private let processor = PYINProcessor()
     private let settingsService: SettingsService
     private var shouldResumeAfterInterruption = false
+    private var wasListeningBeforeBackground = false
+    private var recentCentsSamples: [Double] = []
+    private var cancellables = Set<AnyCancellable>()
 
     init(settingsService: SettingsService) {
         self.settingsService = settingsService
         refreshPermissionState()
         observeAudioInterruptions()
+        observeSettingsChanges()
     }
 
     deinit {
@@ -61,6 +70,7 @@ final class PitchDetectorService: ObservableObject {
                 startAudioEngine()
             } else {
                 currentPitch = nil
+                displayCents = nil
                 isListening = false
             }
         }
@@ -69,9 +79,20 @@ final class PitchDetectorService: ObservableObject {
     private func startAudioEngine() {
         guard !engineService.isRunning else { return }
 
+        let referencePitch = Float(settingsService.settings.referencePitch.rawValue)
+        let threshold = confidenceThreshold
+        let processor = self.processor
+        let smoothingFactor = levelSmoothingFactor
+
         do {
             try engineService.start { [weak self] buffer in
-                self?.analyzeBuffer(buffer)
+                self?.processAudioBuffer(
+                    buffer,
+                    referencePitch: referencePitch,
+                    confidenceThreshold: threshold,
+                    processor: processor,
+                    smoothingFactor: smoothingFactor
+                )
             }
             statusMessage = "Listening..."
             isListening = true
@@ -82,38 +103,114 @@ final class PitchDetectorService: ObservableObject {
         }
     }
 
-    private func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
+    nonisolated private func processAudioBuffer(
+        _ buffer: AVAudioPCMBuffer,
+        referencePitch: Float,
+        confidenceThreshold: Float,
+        processor: PYINProcessor,
+        smoothingFactor: Float
+    ) {
         guard let channelData = buffer.floatChannelData?[0] else { return }
         let samples = Array(UnsafeBufferPointer(start: channelData, count: Int(buffer.frameLength)))
-        updateInputLevel(with: samples)
+
+        let rms = Self.computeRMS(samples: samples)
 
         let candidates = processor.getPitchCandidates(samples: samples, sampleRate: Float(buffer.format.sampleRate))
 
+        let pitchResult: PitchResult?
         if let top = candidates.first, top.probability >= confidenceThreshold {
-            let referencePitch = Float(settingsService.settings.referencePitch.rawValue)
-
-            if let result = NoteConverter.convert(
+            pitchResult = NoteConverter.convert(
                 frequency: top.hz,
                 referenceA4: referencePitch,
                 confidence: top.probability
-            ) {
-                DispatchQueue.main.async {
-                    self.currentPitch = result
-                }
-            }
+            )
         } else {
-            DispatchQueue.main.async {
-                self.currentPitch = nil
-            }
+            pitchResult = nil
         }
+
+        Task { @MainActor [weak self] in
+            self?.applyResults(pitch: pitchResult, rms: rms, smoothingFactor: smoothingFactor)
+        }
+    }
+
+    private func applyResults(pitch: PitchResult?, rms: Float, smoothingFactor: Float) {
+        currentPitch = pitch
+        updateDisplayCents(with: pitch?.cents)
+
+        let normalizedLevel = min(max(rms * 30, 0), 1)
+        let smoothedLevel = (Float(inputLevel) * (1 - smoothingFactor)) + (normalizedLevel * smoothingFactor)
+        inputLevel = Double(smoothedLevel)
+    }
+
+    private func updateDisplayCents(with newValue: Double?) {
+        guard let newValue else {
+            recentCentsSamples.removeAll(keepingCapacity: true)
+            displayCents = nil
+            return
+        }
+
+        recentCentsSamples.append(newValue)
+        if recentCentsSamples.count > centsSampleWindowSize {
+            recentCentsSamples.removeFirst(recentCentsSamples.count - centsSampleWindowSize)
+        }
+
+        let stabilizedValue = median(of: recentCentsSamples)
+
+        guard let previousValue = displayCents else {
+            displayCents = stabilizedValue
+            return
+        }
+
+        guard abs(stabilizedValue - previousValue) >= centsDeadband else {
+            return
+        }
+
+        let smoothedDelta = (stabilizedValue - previousValue) * centsSmoothingFactor
+        let limitedDelta = min(max(smoothedDelta, -maxDisplayCentsStep), maxDisplayCentsStep)
+        displayCents = previousValue + limitedDelta
+    }
+
+    private func median(of values: [Double]) -> Double {
+        let sortedValues = values.sorted()
+        let middleIndex = sortedValues.count / 2
+
+        if sortedValues.count.isMultiple(of: 2) {
+            return (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2
+        }
+
+        return sortedValues[middleIndex]
+    }
+
+    nonisolated private static func computeRMS(samples: [Float]) -> Float {
+        guard !samples.isEmpty else { return 0 }
+        let meanSquare = samples.reduce(Float.zero) { $0 + ($1 * $1) } / Float(samples.count)
+        return sqrt(meanSquare)
     }
 
     func stopListening() {
         engineService.stop()
         currentPitch = nil
+        displayCents = nil
         isListening = false
         inputLevel = 0
         statusMessage = permissionState == .granted ? "Paused" : "Microphone access denied"
+    }
+
+    func pauseForBackground() {
+        guard isListening else {
+            wasListeningBeforeBackground = false
+            return
+        }
+        wasListeningBeforeBackground = true
+        stopListening()
+        statusMessage = "Paused"
+    }
+
+    func resumeIfNeeded() {
+        refreshPermissionState()
+        guard wasListeningBeforeBackground else { return }
+        wasListeningBeforeBackground = false
+        prepareToListen()
     }
 
     func refreshPermissionState() {
@@ -151,19 +248,17 @@ final class PitchDetectorService: ObservableObject {
         }
     }
 
-    private func updateInputLevel(with samples: [Float]) {
-        guard !samples.isEmpty else { return }
-
-        let meanSquare = samples.reduce(Float.zero) { partialResult, sample in
-            partialResult + (sample * sample)
-        } / Float(samples.count)
-        let rms = sqrt(meanSquare)
-        let normalizedLevel = min(max(rms * 30, 0), 1)
-        let smoothedLevel = (Float(inputLevel) * (1 - levelSmoothingFactor)) + (normalizedLevel * levelSmoothingFactor)
-
-        DispatchQueue.main.async {
-            self.inputLevel = Double(smoothedLevel)
-        }
+    private func observeSettingsChanges() {
+        settingsService.$settings
+            .dropFirst()
+            .sink { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    guard let self, self.isListening else { return }
+                    self.engineService.stop()
+                    self.startAudioEngine()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func observeAudioInterruptions() {

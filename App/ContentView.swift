@@ -3,9 +3,9 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
-    @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var settingsService: SettingsService
     @EnvironmentObject private var detector: PitchDetectorService
+    @State private var isSettingsPresented = false
 
     var body: some View {
         NavigationStack {
@@ -34,9 +34,8 @@ struct ContentView: View {
                     Spacer(minLength: 0)
                 }
             }
-            .fullScreenCover(isPresented: $appState.isSettingsPresented) {
+            .fullScreenCover(isPresented: $isSettingsPresented) {
                 SettingsView()
-                    .environmentObject(appState)
                     .environmentObject(settingsService)
             }
         }
@@ -44,9 +43,14 @@ struct ContentView: View {
             detector.prepareToListen()
         }
         .onChange(of: scenePhase) { _, newPhase in
-            guard newPhase == .active else { return }
-            detector.refreshPermissionState()
-            detector.prepareToListen()
+            switch newPhase {
+            case .active:
+                detector.resumeIfNeeded()
+            case .inactive, .background:
+                detector.pauseForBackground()
+            @unknown default:
+                break
+            }
         }
     }
 
@@ -59,7 +63,7 @@ struct ContentView: View {
             Spacer()
 
             Button {
-                appState.isSettingsPresented = true
+                isSettingsPresented = true
             } label: {
                 Image(systemName: "gearshape")
                     .font(.system(size: 18, weight: .regular))
@@ -135,6 +139,8 @@ struct ContentView: View {
                 .font(.system(size: 52, weight: .medium))
                 .foregroundStyle(Color.notePrimary)
                 .shadow(color: Color.notePrimary.opacity(0.08), radius: 2)
+
+            CentsArcGauge(cents: detector.displayCents)
 
             HStack(spacing: 10) {
                 pillLabel(
