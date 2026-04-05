@@ -34,7 +34,7 @@ struct ContentView: View {
                     Spacer(minLength: 0)
                 }
             }
-            .sheet(isPresented: $appState.isSettingsPresented) {
+            .fullScreenCover(isPresented: $appState.isSettingsPresented) {
                 SettingsView()
                     .environmentObject(appState)
                     .environmentObject(settingsService)
@@ -130,10 +130,11 @@ struct ContentView: View {
     }
 
     private var noteDisplay: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 14) {
             Text(detector.currentPitch?.noteWithOctave ?? "—")
                 .font(.system(size: 44, weight: .medium))
                 .foregroundStyle(Color.notePrimary)
+                .shadow(color: Color.notePrimary.opacity(0.08), radius: 2)
 
             HStack(spacing: 10) {
                 pillLabel(
@@ -157,20 +158,19 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
+        .padding(.vertical, 6)
     }
 
     private var micStatusBar: some View {
         HStack(spacing: 10) {
             Circle()
                 .fill(detector.isListening ? Color.micActive : Color.inactiveStroke)
-                .frame(width: 10, height: 10)
-                .scaleEffect(detector.isListening ? 1.0 : 0.8)
-                .opacity(detector.isListening ? 1.0 : 0.55)
+                .frame(width: 20, height: 20)
+                .scaleEffect(dotScale)
+                .opacity(dotOpacity)
                 .animation(
-                    detector.isListening
-                    ? .easeInOut(duration: 1.8).repeatForever(autoreverses: true)
-                    : .easeInOut(duration: 0.2),
-                    value: detector.isListening
+                    .easeOut(duration: 0.08),
+                    value: detector.inputLevel
                 )
 
             Text("live · \(settingsService.settings.referencePitch.statusLabel)")
@@ -184,6 +184,20 @@ struct ContentView: View {
                 .foregroundStyle(Color.inactiveText)
         }
         .padding(.horizontal, 20)
+    }
+
+    private var dotScale: CGFloat {
+        guard detector.isListening else { return 0.75 }
+        return 0.75 + CGFloat(responseLevel) * 1.5
+    }
+
+    private var dotOpacity: Double {
+        guard detector.isListening else { return 0.2 }
+        return 0.35 + responseLevel * 0.65
+    }
+
+    private var responseLevel: Double {
+        pow(detector.inputLevel, 0.35)
     }
 
     private var frequencyText: String {
@@ -213,5 +227,6 @@ struct ContentView: View {
                             .stroke(strokeColor, lineWidth: 1)
                     )
             )
+            .shadow(color: strokeColor.opacity(0.14), radius: 3)
     }
 }

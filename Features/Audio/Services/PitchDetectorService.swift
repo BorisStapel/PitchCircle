@@ -11,10 +11,14 @@ enum MicrophonePermissionState {
 
 @MainActor
 final class PitchDetectorService: ObservableObject {
+    private let confidenceThreshold: Float = 0.7
+    private let levelSmoothingFactor: Float = 0.2
+
     @Published private(set) var currentPitch: PitchResult?
     @Published private(set) var statusMessage: String = "Ready"
     @Published private(set) var permissionState: MicrophonePermissionState = .undetermined
     @Published private(set) var isListening = false
+    @Published private(set) var inputLevel: Double = 0
 
     private let engineService = AudioEngineService()
     private let processor = PYINProcessor()
@@ -81,10 +85,11 @@ final class PitchDetectorService: ObservableObject {
     private func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
         guard let channelData = buffer.floatChannelData?[0] else { return }
         let samples = Array(UnsafeBufferPointer(start: channelData, count: Int(buffer.frameLength)))
+        updateInputLevel(with: samples)
 
         let candidates = processor.getPitchCandidates(samples: samples, sampleRate: Float(buffer.format.sampleRate))
 
-        if let top = candidates.first, top.probability > 0.9 {
+        if let top = candidates.first, top.probability >= confidenceThreshold {
             let referencePitch = Float(settingsService.settings.referencePitch.rawValue)
 
             if let result = NoteConverter.convert(
@@ -107,6 +112,7 @@ final class PitchDetectorService: ObservableObject {
         engineService.stop()
         currentPitch = nil
         isListening = false
+        inputLevel = 0
         statusMessage = permissionState == .granted ? "Paused" : "Microphone access denied"
     }
 
@@ -142,6 +148,21 @@ final class PitchDetectorService: ObservableObject {
             AVCaptureDevice.requestAccess(for: .audio) { granted in
                 continuation.resume(returning: granted)
             }
+        }
+    }
+
+    private func updateInputLevel(with samples: [Float]) {
+        guard !samples.isEmpty else { return }
+
+        let meanSquare = samples.reduce(Float.zero) { partialResult, sample in
+            partialResult + (sample * sample)
+        } / Float(samples.count)
+        let rms = sqrt(meanSquare)
+        let normalizedLevel = min(max(rms * 30, 0), 1)
+        let smoothedLevel = (Float(inputLevel) * (1 - levelSmoothingFactor)) + (normalizedLevel * levelSmoothingFactor)
+
+        DispatchQueue.main.async {
+            self.inputLevel = Double(smoothedLevel)
         }
     }
 

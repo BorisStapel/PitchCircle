@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    private let backgroundColor = Color(.sRGB, red: 14 / 255, green: 14 / 255, blue: 18 / 255, opacity: 1)
-
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var settingsService: SettingsService
 
@@ -18,18 +16,35 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+                .listRowBackground(Color.bgSegment)
+
+                Section {
+                    Text("Changes apply immediately and are stored for the next launch.")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundStyle(Color.inactiveText)
+                        .listRowBackground(Color.bgApp)
+                }
 
                 Section {
                     Button("Reset to Defaults", role: .destructive) {
                         settingsService.resetToDefaults()
                     }
+                    .foregroundStyle(Color.notePrimary)
                 }
+                .listRowBackground(Color.bgSegment)
             }
             .scrollContentBackground(.hidden)
-            .background(backgroundColor)
+            .background(Color.bgApp)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
+            .tint(Color.activeMajorStroke)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("PitchCircle")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(Color.notePrimary)
+                }
+
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Close") {
                         appState.isSettingsPresented = false
@@ -37,7 +52,7 @@ struct SettingsView: View {
                 }
             }
         }
-        .presentationDragIndicator(.visible)
+        .background(Color.bgApp.ignoresSafeArea())
     }
 
     private var referencePitchBinding: Binding<ReferencePitch> {
